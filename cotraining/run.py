@@ -77,42 +77,39 @@ if __name__ == '__main__':
 	# Use following code testing parameters if you want
 	
 	
-	# cotrain_params = ParameterGrid({
-	# 	'k': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-	# 	'u': [int(i*n_samples) for i in [0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]],
-	# 	'p': [1, 2, 3, 10, 20, 30],
-	# 	'n': [1, 2, 3, 10, 20, 30]
-	# })
+	cotrain_params = ParameterGrid({
+		'k': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+		'u': [int(i*n_samples) for i in [0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]],
+		'p': [1, 2, 3, 10, 20, 30],
+		'n': [1, 2, 3, 10, 20, 30]
+	})
 
-	# svm_params = ParameterGrid({
-	# 		'loss': ['hinge','squared_hinge'],
-    #         'C': [0.5, 2.0, 5.0, 50.0]
-	# })
+	svm_params = ParameterGrid({
+			'loss': ['hinge','squared_hinge'],
+            'C': [0.5, 2.0, 5.0, 50.0]
+	})
 
-	# best_score = 0
-	# best_params = None
-	# print ('SVM CoTraining')
-	# for cotrain in cotrain_params:
-	# 	for svm in svm_params:
-	# 		svm_co_clf = CoTrainingClassifier(LinearSVC(**svm), **cotrain)
-	# 		y_pred = svm_co_clf.fit(x1, x2, y_train)
-	# 		score = accuracy_score(y, y_pred)
-	# 		if score > best_score:
-	# 			best_params = {
-	# 				"cotrain": cotrain,
-	# 				"svm": svm
-	# 			}
-	# 			best_score = score
-	# 			print(score)
-	# print("Best Params: ")
-	# print(best_params)
+	best_score = 0
+	best_params = None
+	print ('SVM CoTraining')
+	for cotrain in cotrain_params:
+		for svm in svm_params:
+			svm_co_clf = CoTrainingClassifier(LinearSVC(**svm), **cotrain)
+			y_pred = svm_co_clf.fit(x1, x2, y_train)
+			score = accuracy_score(y, y_pred)
+			if score > best_score:
+				best_params = {
+					"cotrain": cotrain,
+					"svm": svm
+				}
+				best_score = score
+				print(score)
+	print("Best Params: ")
+	print(best_params)
 
-	# print("Best score: ")
-	# print(best_score)
+	print("Best score: ")
+	print(best_score)
 	
-	svm_co_clf = CoTrainingClassifier(LinearSVC(), k=150, p=3, n=5, u=100, cl=cl)
-	y_pred = svm_co_clf.fit(x1, x2, y_train)
-	mask = y_pred != -1
-	print(accuracy_score(y[mask], y_pred[mask]))
+
 
 	
